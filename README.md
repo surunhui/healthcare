@@ -1,69 +1,73 @@
-# 苏衡门诊挂号系统
+# SuHeng Outpatient Registration System
 
-这是一个可本地运行的门诊挂号示例项目，包含两个入口：
+This repository contains a local runnable outpatient registration system with two connected portals:
 
-- 患者端：用于自助查看医生、提交挂号、查询预约
-- 医院端：用于患者建档、排班维护、挂号管理、退号和审计
+- Patient portal: self-service registration and appointment lookup
+- Hospital portal: patient filing, scheduling, registration management, refund handling, and audit logs
 
-两个入口共用同一个后端服务和同一个 SQLite 数据库，所以患者端提交的挂号，医院端可以立即看到。
+Both portals use the same backend service and the same SQLite database, so a registration created on the patient side is immediately visible on the hospital side.
 
-## 功能概览
+## Features
 
-- 患者建档、编辑、删除
-- 医生排班与号源维护
-- 门诊挂号、修改、删除、退号
-- 患者端自助挂号与预约查询
-- 医院端登录、角色权限、审计日志
-- 本地 SQLite 数据存储
+- Patient create, update, search, and delete
+- Doctor schedule and quota management
+- Registration create, update, delete, and refund
+- Patient self-service registration
+- Hospital login, role control, and audit logs
+- Local SQLite persistence
 
-## 运行方式
+## Run
 
-在项目根目录执行：
+Start the backend from the project root:
 
 ```powershell
 python -m backend.server
 ```
 
-浏览器访问：
+Then open:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-也可以直接双击根目录下的启动脚本：
+You can also start the project with:
 
 ```text
 启动苏衡门诊挂号系统.bat
 ```
 
-## 主要入口
+## Main Entry Points
 
-- `index.html`：系统入口页
-- `patient.html`：患者端
-- `registration.html`：医院端工作台
+- `index.html`: unified product entry page
+- `patient.html`: patient portal
+- `registration.html`: hospital workstation
 
-## 核心代码
+## Core Files
 
-- `patient-app.js`：患者端交互逻辑
-- `registration-app.js`：医院端交互逻辑
-- `backend/server.py`：HTTP 接口入口与静态文件分发
-- `backend/repository.py`：主要业务逻辑
-- `backend/schema.py`：数据库表结构与种子数据
-- `backend/db.py`：数据库连接管理
+- `patient-app.js`: patient-side interaction logic
+- `registration-app.js`: hospital-side interaction logic
+- `backend/server.py`: HTTP routing and static file serving
+- `backend/repository.py`: core business logic
+- `backend/schema.py`: database schema and seed data
+- `backend/db.py`: database connection management
 
-## 数据流说明
+## Data Flow
 
-以“患者端挂号，医院端看到记录”为例：
+Example: a patient registers on the patient portal, and the hospital portal sees the same record.
 
-1. 患者端页面收集表单数据
-2. `patient-app.js` 调用后端公开挂号接口
-3. `backend/server.py` 接收请求并分发
-4. `backend/repository.py` 校验患者、医生、排班和号源
-5. 后端将数据写入 `patients`、`registrations`、`payment_records`
-6. 医院端刷新挂号记录时，从同一数据库中读取这条记录
+1. `patient.html` collects visit date, doctor selection, and patient information.
+2. `patient-app.js` validates the form and sends a request to the public registration API.
+3. `backend/server.py` receives the request and forwards it to the repository layer.
+4. `backend/repository.py` checks patient data, doctor availability, schedule, and remaining quota.
+5. The backend writes data into `patients`, `registrations`, and `payment_records`.
+6. `registration-app.js` loads registration records from the same database and renders them in the hospital portal.
 
-## 仓库说明
+## Repository Notes
 
-- 公开仓库已去除本地数据库、调试日志和浏览器临时文件
-- 启动脚本使用相对路径，克隆到其他目录也可运行
-- 旧演示页仍保留在仓库中，仅作历史参考，不作为正式产品入口
+- Local databases, debug logs, and temporary browser files are excluded from version control.
+- Startup scripts use relative paths so the project can be cloned into any directory.
+- Legacy demo pages remain only as redirect pages to the unified entry.
+
+## License
+
+MIT
