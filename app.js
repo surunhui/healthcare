@@ -1,7 +1,4 @@
-// Legacy compatibility entry.
-// Active frontend logic moved to:
-// 1. assets/data/demo-data.js
-// 2. assets/js/app.js
-//
-// Keep this file so old references do not break source lookups.
-console.warn("Use assets/js/app.js instead of root app.js.");
+// 历史兼容入口。
+// 旧演示控制台已不再作为正式产品入口，保留此文件仅用于兼容旧引用。
+// 正式产品请使用 index.html、patient.html、registration.html。
+console.warn("Legacy demo entry retained for compatibility only.");
