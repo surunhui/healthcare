@@ -1,30 +1,69 @@
-# SuHeng Registration System
+# 苏衡门诊挂号系统
 
-This repository now exposes a single formal product entry: the outpatient registration system. It includes patient registration, scheduling, quota control, refunds, authentication, password hashing, and audit logs.
+这是一个可本地运行的门诊挂号示例项目，包含两个入口：
 
-## Product Scope
+- 患者端：用于自助查看医生、提交挂号、查询预约
+- 医院端：用于患者建档、排班维护、挂号管理、退号和审计
 
-- Single product entry: `registration.html`
-- Core capabilities: patient filing, doctor scheduling, registration, refund, audit
-- Legacy demo pages are no longer product entry points
+两个入口共用同一个后端服务和同一个 SQLite 数据库，所以患者端提交的挂号，医院端可以立即看到。
 
-## Run
+## 功能概览
+
+- 患者建档、编辑、删除
+- 医生排班与号源维护
+- 门诊挂号、修改、删除、退号
+- 患者端自助挂号与预约查询
+- 医院端登录、角色权限、审计日志
+- 本地 SQLite 数据存储
+
+## 运行方式
+
+在项目根目录执行：
 
 ```powershell
 python -m backend.server
 ```
 
-Open:
+浏览器访问：
 
 ```text
 http://127.0.0.1:8000
 ```
 
-## Key Files
+也可以直接双击根目录下的启动脚本：
 
-- `registration.html`
-- `registration-app.js`
-- `registration.css`
-- `backend/server.py`
-- `backend/repository.py`
-- `backend/schema.py`
+```text
+启动苏衡门诊挂号系统.bat
+```
+
+## 主要入口
+
+- `index.html`：系统入口页
+- `patient.html`：患者端
+- `registration.html`：医院端工作台
+
+## 核心代码
+
+- `patient-app.js`：患者端交互逻辑
+- `registration-app.js`：医院端交互逻辑
+- `backend/server.py`：HTTP 接口入口与静态文件分发
+- `backend/repository.py`：主要业务逻辑
+- `backend/schema.py`：数据库表结构与种子数据
+- `backend/db.py`：数据库连接管理
+
+## 数据流说明
+
+以“患者端挂号，医院端看到记录”为例：
+
+1. 患者端页面收集表单数据
+2. `patient-app.js` 调用后端公开挂号接口
+3. `backend/server.py` 接收请求并分发
+4. `backend/repository.py` 校验患者、医生、排班和号源
+5. 后端将数据写入 `patients`、`registrations`、`payment_records`
+6. 医院端刷新挂号记录时，从同一数据库中读取这条记录
+
+## 仓库说明
+
+- 公开仓库已去除本地数据库、调试日志和浏览器临时文件
+- 启动脚本使用相对路径，克隆到其他目录也可运行
+- 旧演示页仍保留在仓库中，仅作历史参考，不作为正式产品入口
