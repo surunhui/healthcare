@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "messageType": "HIS_TO_EMR_ADMISSION",
+    "messageId": "MSG202603110001",
+    "sourceSystem": "HIS",
+    "targetSystem": "EMR",
+    "sendTime": "2026-03-11T10:30:00+08:00",
+    "teachingNotes": [
+      "JSON uses key-value pairs. Example: patientName is the key, Zhang San is the value.",
+      "Interface integration depends on exact field names and valid JSON syntax.",
+      "A wrong field name, wrong case, missing quote, or wrong data type can break parsing or validation.",
+      "In real projects, request and response are usually traced by messageId or traceId."
+    ],
+    "interviewQuestion": "HIS says the message was sent successfully, but EMR says it was not received. How do you troubleshoot with this payload?",
+    "interviewAnswer": "Check the payload first, then check HIS outbound logs, HTTP status or middleware response, gateway logs, network connectivity, and EMR inbound logs. The goal is to determine whether the failure is at the sender, in the transmission path, or at the receiver validation stage.",
+    "implementationComments": [
+      "requestExample shows what HIS sends to EMR",
+      "responseExample shows what EMR returns",
+      "errorCodeNotes lists common integration errors for faster troubleshooting"
+    ]
+  },
+  "requestExample": {
+    "traceId": "TRACE202603110001",
+    "patientInfo": {
+      "patientName": "Zhang San",
+      "inpatientNo": "ZY202603110001",
+      "gender": "M",
+      "admissionDate": "2026-03-11"
+    },
+    "clinicalInfo": {
+      "diagnosis": "Community Acquired Pneumonia",
+      "allergyHistory": [
+        "Penicillin",
+        "Seafood"
+      ]
+    }
+  },
+  "responseExample": {
+    "traceId": "TRACE202603110001",
+    "messageId": "MSG202603110001",
+    "status": "SUCCESS",
+    "code": "0000",
+    "message": "EMR accepted the payload successfully",
+    "receiveTime": "2026-03-11T10:30:02+08:00"
+  },
+  "errorCodeNotes": [
+    {
+      "code": "1001",
+      "meaning": "Invalid JSON format",
+      "troubleshooting": "Check missing quotes, commas, braces, and field type mismatches"
+    },
+    {
+      "code": "1002",
+      "meaning": "Required field missing",
+      "troubleshooting": "Check patientName, inpatientNo, diagnosis, and other mandatory fields"
+    },
+    {
+      "code": "1003",
+      "meaning": "Authentication or signature failed",
+      "troubleshooting": "Check token, signature, timestamp, and system configuration"
+    },
+    {
+      "code": "1004",
+      "meaning": "Duplicate message",
+      "troubleshooting": "Check whether messageId or traceId was reused"
+    },
+    {
+      "code": "1005",
+      "meaning": "Business validation failed",
+      "troubleshooting": "Check whether the inpatient number exists or the patient state is valid in EMR"
+    }
+  ],
+  "payload": {
+    "note": "payload field is kept for compatibility with simple demo readers",
+    "patientName": "Zhang San",
+    "inpatientNo": "ZY202603110001",
+    "diagnosis": "Community Acquired Pneumonia",
+    "allergyHistory": [
+      "Penicillin",
+      "Seafood"
+    ]
+  }
+}

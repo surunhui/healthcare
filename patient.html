@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>苏衡门诊挂号系统患者端</title>
+  <link rel="stylesheet" href="patient.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <a class="hero-back" href="index.html" id="back-home">返回入口</a>
+      <div class="hero-kicker" id="hero-kicker">患者端</div>
+      <h1 id="hero-title">患者自助挂号</h1>
+      <p id="hero-copy">无需注册登录，可直接查询医生排班、提交挂号，并查看自己的预约记录。</p>
+    </header>
+
+    <section class="status-strip" id="status-strip">正在加载最新号源...</section>
+
+    <section class="success-toast hidden" id="success-toast" aria-live="polite">
+      <div class="success-toast-title" id="success-toast-title">挂号成功</div>
+      <div class="success-toast-copy" id="success-toast-copy">您的预约已提交到医院端工作台。</div>
+      <div class="success-toast-meta" id="success-toast-meta"></div>
+      <button class="button secondary success-toast-button" type="button" id="success-toast-close">我知道了</button>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 id="doctor-panel-title">可预约医生</h2>
+          <p id="doctor-panel-copy">先选择就诊日期，再点击医生卡片完成选择。</p>
+        </div>
+        <label class="field compact">
+          <span id="visit-date-label">就诊日期</span>
+          <input type="date" id="visit-date">
+        </label>
+      </div>
+      <div class="doctor-grid" id="doctor-grid"></div>
+    </section>
+
+    <section class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 id="form-title">提交挂号</h2>
+            <p id="form-copy">患者端与医院端共用同一套排班和号源，提交后医院端会立即看到这条挂号记录。</p>
+          </div>
+        </div>
+        <form class="form-grid" id="booking-form">
+          <label class="field">
+            <span id="patient-name-label">姓名</span>
+            <input type="text" id="patient-name" required>
+          </label>
+          <label class="field">
+            <span id="patient-gender-label">性别</span>
+            <select id="patient-gender" required>
+              <option value="M" id="gender-m">男</option>
+              <option value="F" id="gender-f">女</option>
+            </select>
+          </label>
+          <label class="field">
+            <span id="patient-phone-label">手机号</span>
+            <input type="text" id="patient-phone" required>
+          </label>
+          <label class="field">
+            <span id="patient-birth-label">出生日期</span>
+            <input type="date" id="patient-birth-date" required>
+          </label>
+          <label class="field full">
+            <span id="patient-id-card-label">身份证号</span>
+            <input type="text" id="patient-id-card">
+          </label>
+          <label class="field full">
+            <span id="selected-doctor-label">已选医生</span>
+            <input type="text" id="selected-doctor" readonly>
+          </label>
+          <label class="field full">
+            <span id="note-label">备注</span>
+            <input type="text" id="booking-note">
+          </label>
+          <div class="quota-tip" id="quota-tip">请先选择医生。</div>
+          <button class="button" type="submit" id="booking-submit">提交挂号</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 id="lookup-title">我的预约</h2>
+            <p id="lookup-copy">输入姓名、手机号和挂号单号后查询预约。</p>
+          </div>
+        </div>
+        <div class="lookup-bar">
+          <input type="text" id="lookup-name">
+          <input type="text" id="lookup-phone">
+          <input type="text" id="lookup-reg-no">
+          <button class="button secondary" id="lookup-button">查询</button>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th id="th-reg-no">挂号单号</th>
+                <th id="th-doctor">医生</th>
+                <th id="th-date">日期</th>
+                <th id="th-status">状态</th>
+              </tr>
+            </thead>
+            <tbody id="lookup-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="patient-app.js"></script>
+</body>
+</html>

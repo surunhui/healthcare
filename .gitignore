@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.vscode/
+.chrome-temp*/
+chrome_dom.txt
+chrome_test_dom*.txt
+data/
+tmp_server_*.log
+nul')
